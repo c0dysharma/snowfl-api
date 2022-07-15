@@ -1,0 +1,29 @@
+{
+  "name": "snowfl-api",
+  "version": "1.0.0",
+  "description": "Unoffical API for Snowfl (Torrent Search Engine site)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c0dysharma/snowfl-api.git"
+  },
+  "keywords": [
+    "Snowfl",
+    "API",
+    "Reverse",
+    "Engineering"
+  ],
+  "author": "c0dysharma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/c0dysharma/snowfl-api/issues"
+  },
+  "homepage": "https://github.com/c0dysharma/snowfl-api#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
