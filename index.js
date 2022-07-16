@@ -12,16 +12,16 @@ class Snowfl {
     NONE: '/DH5kKsJw/0/NONE/NONE/'
   };
 
-  async parse(query, { sort = Snowfl.sortEnum.NONE, isNsfw = false } = {}) {
+  async parse(query, { sort = Snowfl.sortEnum.NONE, includeNsfw = false } = {}) {
     this.query = query;
     this.sort = sort;
-    this.isNsfw = isNsfw ? 1 : 0;
+    this.includeNsfw = typeof(includeNsfw) == "boolean" && includeNsfw ? 1 : 0;
     this.api = this.api ? this.api : await getApiKey();
 
     const sortEnum = Snowfl.sortEnum;
     if (Object.values(sortEnum).includes(this.sort))
-      this.url = `${baseURl}${this.api}/${this.query}${this.sort}${this.isNsfw}`
-    else this.url = `${baseURl}${this.api}/${this.query}${sortEnum.NONE}${this.isNsfw}`
+      this.url = `${baseURl}${this.api}/${this.query}${this.sort}${this.includeNsfw}`
+    else this.url = `${baseURl}${this.api}/${this.query}${sortEnum.NONE}${this.includeNsfw}`
 
     const res = await axios.get(this.url);
     return res.data;
