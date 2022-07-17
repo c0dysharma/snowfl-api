@@ -1,4 +1,5 @@
 const getApiKey = require('./lib/getApiKey');
+const { ApiError, FetchError } = require('./lib/errors');
 const axios = require('axios');
 
 const baseURl = 'https://snowfl.com/';
@@ -21,20 +22,24 @@ class Snowfl {
     const sortEnum = Snowfl.sortEnum;
 
     try {
+      if (this.query.length <= 2) throw new FetchError('Query should be of length >= 3');
       this.api = await getApiKey(); // get the apiKey from helper function
-      if (this.api == null) throw error('Exiting')
+      if (this.api == null) throw new ApiError()
 
       if (Object.values(sortEnum).includes(this.sort)) // check if invalid sorting option
         this.url = `${baseURl}${this.api}/${this.query}${this.sort}${this.includeNsfw}`
       else this.url = `${baseURl}${this.api}/${this.query}${sortEnum.NONE}${this.includeNsfw}` // revert to default- NONE
 
       const res = await axios.get(this.url);
-      if (res.status != 200) throw Error("Couldn't get data");
-      return res.data; // returns Object data
+      if (res.status != 200) throw new FetchError("Couldn't get data");
+      return { status: 200, message: 'OK', data: res.data }; // returns Object data
 
     } catch (error) {
-      console.error('Something Went wrong....')
-      console.error(error);
+      if (error instanceof FetchError || error instanceof axios.AxiosError) {
+        console.error('Something Went wrong....')
+        console.error(error.message);
+      }
+      return { status: 400, message: error.message, data: undefined };
     }
   }
 
