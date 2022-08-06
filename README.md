@@ -62,7 +62,7 @@ false // only decent content - Default
 {
   status: <code>,
   message: <message>,
-  data: [<array of objevsts>]
+  data: [<array of objects>]
 }
 ```
 
