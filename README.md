@@ -36,6 +36,7 @@ let res = await snowfl.parse(<Query here>, { <config here> })
 {
   sort: <Sorting Method>, // optional
   includeNsfw: <bool> // optional
+  forceFetchMagnet: <bool> // optional
 }
 ```
 
@@ -55,6 +56,13 @@ Include NSFW bool
 ```
 true // to include NSFW content
 false // only decent content - Default
+```
+
+Force fetch magnet url bool
+
+```
+true // Enable to force-fetch magnet URLs for all items, even when they are not available by default.
+false // Magnet URLs are fetched only for items where they are available - Default
 ```
 
 **Return Value**

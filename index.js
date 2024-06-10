@@ -1,4 +1,5 @@
 const getApiKey = require('./lib/getApiKey');
+const getMagnetUrl = require('./lib/getMagnetUrl');
 const { ApiError, FetchError } = require('./lib/errors');
 const axios = require('axios');
 
@@ -15,7 +16,7 @@ class Snowfl {
     NONE: '/DH5kKsJw/0/NONE/NONE/'
   };
 
-  async parse(query, { sort = Snowfl.sortEnum.NONE, includeNsfw = false } = {}) {
+  async parse(query, { sort = Snowfl.sortEnum.NONE, includeNsfw = false, forceFetchMagnet = false } = {}) {
     this.query = query;
     this.sort = sort;
     this.includeNsfw = typeof (includeNsfw) == "boolean" && includeNsfw ? 1 : 0;
@@ -32,6 +33,18 @@ class Snowfl {
 
       const res = await axios.get(this.url);
       if (res.status != 200) throw new FetchError("Couldn't get data");
+      const { data } = res;
+
+      if (forceFetchMagnet && data && data.length) {
+        const updatedData = await Promise.all(data.map(async item => {
+          if (item.magnet) return item;
+          const magnet = await getMagnetUrl(this.api, item);
+          return { ...item, magnet };
+        }));
+
+        return { status: 200, message: 'OK', data: updatedData };
+      }
+
       return { status: 200, message: 'OK', data: res.data }; // returns Object data
 
     } catch (error) {
