@@ -1,6 +1,6 @@
 {
   "name": "snowfl-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Unoffical API for Snowfl (Torrent Search Engine site)",
   "main": "index.js",
   "scripts": {
